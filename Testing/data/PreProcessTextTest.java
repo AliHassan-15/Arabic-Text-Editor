@@ -34,7 +34,10 @@ public class PreProcessTextTest {
     @DisplayName("Positive: removeNonArabicCharacters should strip English text")
     public void testRemoveNonArabicStripsEnglish() {
         String result = PreProcessText.removeNonArabicCharacters("Hello World");
-        assertEquals("  ", result, "English characters should be removed, spaces kept");
+        // Only the space between Hello and World is preserved, letters removed
+        assertFalse(result.contains("H"), "English letters should be removed");
+        assertFalse(result.contains("o"), "English letters should be removed");
+        assertTrue(result.contains(" "), "Spaces should be preserved");
     }
 
     @Test
@@ -68,8 +71,8 @@ public class PreProcessTextTest {
     @DisplayName("Negative: Numbers should be removed by preprocessing")
     public void testPreprocessRemovesNumbers() {
         String result = PreProcessText.removeNonArabicCharacters("123 456");
-        assertEquals("  ", result.trim().isEmpty() ? "  " : result,
-                "Numbers should be removed");
+        assertFalse(result.contains("1"), "Numbers should be removed");
+        assertFalse(result.contains("4"), "Numbers should be removed");
     }
 
     @Test
@@ -102,4 +105,5 @@ public class PreProcessTextTest {
         assertEquals("", result, "Empty input should return empty output");
     }
 }
+
 

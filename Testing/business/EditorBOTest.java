@@ -25,13 +25,12 @@ public class EditorBOTest {
 
     @BeforeEach
     public void setUp() {
-        // Using real DAO through interface for integration-level testing
         IEditorDBDAO editorDAO = AbstractDAOEditorFactory.getInstance().createEditorDAO();
         IFacadeDAO facadeDAO = new FacadeDAO(editorDAO);
         editorBO = new EditorBO(facadeDAO);
     }
 
-    // ==================== getFileExtension() Tests ====================
+    // ==================== getFileExtension() Positive Tests ====================
 
     @Test
     @DisplayName("Positive: getFileExtension for .txt file should return 'txt'")
@@ -61,6 +60,8 @@ public class EditorBOTest {
         assertEquals("gz", extension, "Should return the last extension after the last dot");
     }
 
+    // ==================== getFileExtension() Negative Tests ====================
+
     @Test
     @DisplayName("Negative: getFileExtension with no extension should return empty string")
     public void testGetFileExtensionNoExtension() {
@@ -74,6 +75,8 @@ public class EditorBOTest {
         String extension = editorBO.getFileExtension("");
         assertEquals("", extension, "Empty filename should return empty string");
     }
+
+    // ==================== getFileExtension() Boundary Tests ====================
 
     @Test
     @DisplayName("Boundary: getFileExtension with dot only should return empty string")
@@ -94,7 +97,8 @@ public class EditorBOTest {
     @Test
     @DisplayName("Positive: getAllFiles should return a non-null list")
     public void testGetAllFilesNotNull() {
-        assertNotNull(editorBO.getAllFiles(), "getAllFiles should never return null");
+        List<?> files = editorBO.getAllFiles();
+        assertNotNull(files, "getAllFiles should never return null");
     }
 
     // ==================== getFile() Tests ====================
@@ -122,11 +126,18 @@ public class EditorBOTest {
     }
 
     @Test
-    @DisplayName("Positive: searchKeyword with valid keyword should return list")
+    @DisplayName("Positive: searchKeyword with valid keyword should return non-null list")
     public void testSearchKeywordValid() {
-        // This may return empty list if no matching docs exist, but should not throw
         List<String> results = editorBO.searchKeyword("test");
         assertNotNull(results, "Search results should not be null");
     }
-}
 
+    // ==================== deleteFile() Tests ====================
+
+    @Test
+    @DisplayName("Negative: deleteFile with non-existent ID should return false")
+    public void testDeleteNonExistentFile() {
+        boolean result = editorBO.deleteFile(-999);
+        assertFalse(result, "Deleting non-existent file should return false");
+    }
+}

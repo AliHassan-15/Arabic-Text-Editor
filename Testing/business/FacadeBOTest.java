@@ -33,7 +33,7 @@ public class FacadeBOTest {
         facadeBO = new FacadeBO(new EditorBO(facadeDAO));
     }
 
-    // ==================== Facade Delegation Tests ====================
+    // ==================== Positive Delegation Tests ====================
 
     @Test
     @DisplayName("Positive: FacadeBO.getAllFiles() should delegate and return non-null list")
@@ -43,7 +43,7 @@ public class FacadeBOTest {
     }
 
     @Test
-    @DisplayName("Positive: FacadeBO.getFileExtension() should delegate correctly")
+    @DisplayName("Positive: FacadeBO.getFileExtension() should delegate correctly for .txt")
     public void testGetFileExtensionDelegation() {
         String ext = facadeBO.getFileExtension("file.txt");
         assertEquals("txt", ext, "FacadeBO should delegate getFileExtension correctly");
@@ -55,6 +55,8 @@ public class FacadeBOTest {
         String ext = facadeBO.getFileExtension("notes.md");
         assertEquals("md", ext);
     }
+
+    // ==================== Negative Tests ====================
 
     @Test
     @DisplayName("Negative: FacadeBO.getFile() with invalid ID should return null")
@@ -101,4 +103,3 @@ public class FacadeBOTest {
         assertNull(facadeBO.getFile(0), "File ID 0 should return null");
     }
 }
-

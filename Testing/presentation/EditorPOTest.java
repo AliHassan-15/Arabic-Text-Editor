@@ -2,11 +2,8 @@ package presentation;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +18,7 @@ import pl.EditorPO;
 
 /**
  * JUnit 5 tests for EditorPO (Presentation Layer).
- * Tests the GUI helper/utility methods and initialization.
+ * Tests the GUI initialization and window properties.
  */
 public class EditorPOTest {
 
@@ -38,6 +35,7 @@ public class EditorPOTest {
     @AfterEach
     public void tearDown() {
         if (editorPO != null) {
+            editorPO.setVisible(false);
             editorPO.dispose();
             editorPO = null;
         }
@@ -75,22 +73,4 @@ public class EditorPOTest {
         assertEquals(javax.swing.JFrame.EXIT_ON_CLOSE, editorPO.getDefaultCloseOperation(),
                 "Default close operation should be EXIT_ON_CLOSE");
     }
-
-    // ==================== Negative Tests ====================
-
-    @Test
-    @DisplayName("Negative: EditorPO with null business object should handle gracefully")
-    public void testEditorPOWithNullBO() {
-        // Passing null may cause NullPointerException when interacting,
-        // but construction itself may or may not throw
-        try {
-            editorPO = new EditorPO(null);
-            // If it doesn't throw, the frame was created (UI initialized)
-            assertNotNull(editorPO);
-        } catch (NullPointerException e) {
-            // Acceptable - no graceful handling for null BO
-            assertNotNull(e);
-        }
-    }
 }
-

@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 
 import bll.SearchWord;
 import dto.Documents;
-import dto.Pages;
+import dto.Pages; 
 
 /**
  * JUnit 5 tests for SearchWord (Business Layer).
